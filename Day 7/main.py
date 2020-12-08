@@ -72,17 +72,31 @@ def count_unique_parents(tree, bag_type):
 
 
 def count_number_children(tree, bag_type):
+    bag_instance = 0
+    total_bags = 0
+    instance_list = []
+    bag_list = {}
 
-#    for bag, value in all_bags.items():
-#        bag_data = tree.get(bag)
-#        for bag_data_key, bag_data_value in bag_data['children'].items():
-#            all_bags[bag_data_key] = bag_data_value * value
+    # initialise lists with first bag
+    instance_list.append(bag_instance)
+    bag_list[str(bag_instance)] = [bag_type, 1]
 
-#    print(all_bags)
-#    print(tree[bag_type])
-#    print(sum(all_bags.values()))
+    # run list
+    for bag in instance_list:
+        for cld_type, cld_count in tree[bag_list[str(bag)][0]]['children'].items():
+            # next instance nb
+            bag_instance += 1
 
-    return 0
+            # add instance to list
+            instance_list.append(bag_instance)
+
+            # add to bag list
+            bag_list[str(bag_instance)] = [cld_type, (int(cld_count) * bag_list[str(bag)][1])]
+
+    for instance in bag_list.values():
+        total_bags += instance[1]
+
+    return total_bags - 1
 
 
 def luggage_processing():
@@ -99,7 +113,8 @@ def luggage_processing():
     nb_bag_colours = count_unique_parents(rules_tree, bag_type_search)
     nb_children = count_number_children(rules_tree, bag_type_search)
 
-    # print(nb_bag_colours)
+    print(nb_bag_colours)
+    print(nb_children)
 
 
 # Press the green button in the gutter to run the script.
