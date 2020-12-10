@@ -4,6 +4,7 @@ from file_loading import load_file_readlines_int
 def joltinator():
     file = "input.txt"
     adapter_list = load_file_readlines_int(file)
+    difference_count = {1: 0, 3: 0}
     difference_list = []
 
     section_depth = 0
@@ -22,6 +23,7 @@ def joltinator():
 
     for adapter in range(1, len(adapter_list)):
         difference = adapter_list[adapter] - adapter_list[adapter - 1]
+        difference_count[difference] += 1
         difference_list.append(difference)
 
     for diff in difference_list:
@@ -52,6 +54,7 @@ def joltinator():
 
     print(difference_list)
     print(total_paths)
+    print(difference_count[1] * difference_count[3])
     print(prod(total_paths))
 
 if __name__ == '__main__':
